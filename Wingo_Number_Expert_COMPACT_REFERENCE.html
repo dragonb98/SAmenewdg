@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Wingo Number Expert</title>
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init','1760158885040992');
+fbq('track','PageView');
+</script>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  width:100%;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#f4f7ff;
+  background:
+    radial-gradient(circle at 50% 25%,rgba(12,72,125,.30),transparent 38%),
+    linear-gradient(180deg,#082b50 0%,#061f3a 43%,#020913 100%);
+}
+
+.page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding:30vh 12px 35px;
+}
+
+.card{
+  width:min(100%,630px);
+  min-height:650px;
+  padding:39px 34px 38px;
+  border:1px solid rgba(0,204,255,.35);
+  border-radius:29px;
+  text-align:center;
+  background:
+    linear-gradient(180deg,rgba(3,24,44,.96),rgba(2,12,25,.98));
+  box-shadow:
+    0 0 28px rgba(0,145,210,.07),
+    inset 0 0 35px rgba(0,90,145,.025);
+  position:relative;
+  overflow:hidden;
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:180px;
+  top:-100px;
+  left:50%;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse,rgba(0,180,255,.10),transparent 70%);
+  pointer-events:none;
+}
+
+/* Heading */
+h1{
+  margin:0;
+  position:relative;
+  font-size:40px;
+  line-height:1.12;
+  font-weight:800;
+  letter-spacing:.2px;
+  background:linear-gradient(90deg,#dffcff,#18e6f7 45%,#45a4ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.community{
+  margin-top:17px;
+  color:#b8bec9;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:3px;
+}
+
+/* Exact screenshot message */
+.message{
+  margin:39px auto 28px;
+  font-size:21px;
+  line-height:1.9;
+  font-weight:800;
+  color:#e9ebf0;
+}
+
+.message .second{
+  display:block;
+}
+
+/* Small pill */
+.vip-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:45px;
+  padding:0 26px;
+  border:1px solid rgba(0,206,255,.52);
+  border-radius:999px;
+  background:rgba(0,92,151,.12);
+  box-shadow:
+    0 0 18px rgba(0,191,255,.09),
+    inset 0 0 12px rgba(0,174,255,.04);
+  color:#dbe9f2;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.8px;
+}
+
+.vip-pill .bolt{
+  margin-right:9px;
+  color:#ffe100;
+  font-size:17px;
+}
+
+/* Exact large CTA */
+.telegram-btn{
+  margin-top:17px;
+  width:100%;
+  height:119px;
+  padding:0 24px;
+  border-radius:25px;
+  border:2px solid rgba(105,235,255,.92);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  text-decoration:none;
+  color:#fff;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(105deg,#0bd7eb 0%,#08b5ee 28%,#087cf2 65%,#184cff 100%);
+  box-shadow:
+    0 0 8px rgba(72,229,255,.80),
+    0 0 27px rgba(0,152,255,.50),
+    0 11px 28px rgba(0,67,175,.25),
+    inset 0 1px 0 rgba(255,255,255,.45);
+}
+
+.telegram-btn:before{
+  content:"";
+  position:absolute;
+  top:-20%;
+  left:-45%;
+  width:27%;
+  height:150%;
+  transform:skewX(-22deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.50),transparent);
+  animation:shine 3.4s infinite;
+}
+
+@keyframes shine{
+  0%,55%{left:-45%}
+  100%{left:140%}
+}
+
+.cta-left{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  gap:17px;
+  text-align:left;
+}
+
+.plane{
+  font-size:43px;
+  transform:rotate(-8deg);
+  line-height:1;
+}
+
+.cta-title{
+  display:block;
+  font-size:27px;
+  line-height:1.05;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+
+.cta-sub{
+  display:block;
+  margin-top:6px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.arrow{
+  position:relative;
+  z-index:2;
+  font-size:47px;
+  line-height:1;
+  font-weight:900;
+}
+
+/* Access timer */
+.access{
+  margin-top:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  color:#dfe3ec;
+  font-size:14px;
+  font-weight:850;
+  letter-spacing:1.4px;
+}
+
+.access .clock{
+  font-size:13px;
+}
+
+#countdown{
+  min-width:78px;
+  text-align:left;
+  font-size:27px;
+  letter-spacing:1px;
+}
+
+/* Bottom text */
+.description{
+  margin:40px 0 0;
+  color:#8f97a6;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.footer{
+  margin-top:31px;
+  color:#687181;
+  font-size:13px;
+}
+
+/* Mobile match */
+@media(max-width:600px){
+  .page{
+    min-height:100vh;
+    padding:28vh 10px 28px;
+  }
+
+  .card{
+    width:100%;
+    max-width:630px;
+    min-height:650px;
+    padding:39px 28px 38px;
+    border-radius:29px;
+  }
+
+  h1{
+    font-size:38px;
+    line-height:1.1;
+    white-space:nowrap;
+  }
+
+  .community{
+    margin-top:15px;
+    font-size:12px;
+    letter-spacing:2.7px;
+    white-space:nowrap;
+  }
+
+  .message{
+    margin:36px auto 26px;
+    font-size:20px;
+    line-height:1.82;
+  }
+
+  .message .second{
+    display:block;
+  }
+
+  .vip-pill{
+    min-height:44px;
+    padding:0 23px;
+    font-size:13px;
+  }
+
+  .telegram-btn{
+    height:108px;
+    margin-top:17px;
+    padding:0 19px;
+    border-radius:25px;
+  }
+
+  .cta-left{
+    gap:13px;
+  }
+
+  .plane{
+    font-size:35px;
+  }
+
+  .cta-title{
+    font-size:24px;
+    white-space:nowrap;
+  }
+
+  .cta-sub{
+    margin-top:5px;
+    font-size:10px;
+    white-space:nowrap;
+  }
+
+  .arrow{
+    font-size:43px;
+  }
+
+  .access{
+    margin-top:27px;
+    font-size:13px;
+    gap:8px;
+  }
+
+  #countdown{
+    min-width:72px;
+    font-size:25px;
+  }
+
+  .description{
+    margin-top:38px;
+    font-size:12px;
+  }
+
+  .footer{
+    margin-top:30px;
+    font-size:12px;
+  }
+}
+
+@media(max-width:430px){
+  .page{
+    padding:34vh 10px 25px;
+  }
+
+  .card{
+    min-height:650px;
+    padding:38px 17px 36px;
+    border-radius:29px;
+  }
+
+  h1{
+    font-size:34px;
+    line-height:1.1;
+    white-space:nowrap;
+  }
+
+  .community{
+    margin-top:14px;
+    font-size:11px;
+    letter-spacing:2.35px;
+    white-space:nowrap;
+  }
+
+  .message{
+    margin:34px auto 25px;
+    font-size:18px;
+    line-height:1.82;
+  }
+
+  .vip-pill{
+    min-height:43px;
+    padding:0 19px;
+    font-size:12px;
+    letter-spacing:1.5px;
+  }
+
+  .telegram-btn{
+    height:106px;
+    margin-top:17px;
+    padding:0 15px;
+    border-radius:24px;
+  }
+
+  .cta-left{
+    gap:10px;
+  }
+
+  .plane{
+    font-size:33px;
+  }
+
+  .cta-title{
+    font-size:21px;
+    white-space:nowrap;
+  }
+
+  .cta-sub{
+    font-size:10px;
+    white-space:nowrap;
+  }
+
+  .arrow{
+    font-size:40px;
+  }
+
+  .access{
+    margin-top:26px;
+    font-size:12px;
+    gap:7px;
+  }
+
+  #countdown{
+    min-width:68px;
+    font-size:24px;
+  }
+
+  .description{
+    margin-top:37px;
+    font-size:11px;
+  }
+
+  .footer{
+    margin-top:29px;
+    font-size:11px;
+  }
+}
+
+@media(max-height:760px){
+  .page{padding-top:20vh}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .telegram-btn:before{animation:none}
+}
+</style>
+</head>
+
+<body>
+
+<main class="page">
+  <section class="card">
+
+    <h1>Wingo Number Expert</h1>
+
+    <div class="community">
+      OFFICIAL TELEGRAM COMMUNITY
+    </div>
+
+    <div class="message">
+      Kya aap bhi other channels se pareshan ho?
+      <span class="second">😕 Toh aa jao — 🔥 1 MINT BHAI ke saath! 🚀</span>
+    </div>
+
+    <div class="vip-pill">
+      <span class="bolt">⚡</span>
+      JOIN THE VIP COMMUNITY
+    </div>
+
+    <a
+      id="telegramButton"
+      class="telegram-btn"
+      href="https://t.me/+I68Imw0nVaJjNzA1"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="cta-left">
+        <span class="plane">✈️</span>
+        <span>
+          <span class="cta-title">JOIN VIP TELEGRAM</span>
+          <span class="cta-sub">Tap here to join the community</span>
+        </span>
+      </span>
+
+      <span class="arrow">➜</span>
+    </a>
+
+    <div class="access">
+      <span class="clock">♙</span>
+      <span>ACCESS WINDOW:</span>
+      <span id="countdown">00:16</span>
+    </div>
+
+    <div class="description">
+      Join the Telegram community for updates and information.
+    </div>
+
+    <div class="footer">
+      © 2026 Wingo Number Expert
+    </div>
+
+  </section>
+</main>
+
+<script>
+/* Screenshot-style countdown */
+let remaining = 16;
+const countdown = document.getElementById("countdown");
+
+function tick(){
+  countdown.textContent = "00:" + String(remaining).padStart(2,"0");
+  remaining--;
+  if(remaining < 0) remaining = 16;
+}
+tick();
+setInterval(tick,1000);
+
+/*
+  Tracking only on the actual CTA.
+  This measures the click, not confirmed Telegram membership.
+*/
+const btn = document.getElementById("telegramButton");
+
+btn.addEventListener("click", function(e){
+  if(e.isTrusted !== false && typeof fbq === "function"){
+    fbq("track","Subscribe",{
+      content_name:"VIP Telegram CTA",
+      content_category:"Telegram Community"
+    });
+  }
+});
+</script>
+
+</body>
+</html>
